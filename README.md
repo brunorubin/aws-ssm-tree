@@ -28,3 +28,7 @@ Options:
   --version        Show the version and exit.
   --help           Show this message and exit.
 ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
