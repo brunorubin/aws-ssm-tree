@@ -11,8 +11,8 @@ $ pip install aws-ssm-tree
 ```
 
 ## Example
+![example](https://user-images.githubusercontent.com/2822509/52457161-56684c80-2bbd-11e9-8377-c15656a4d0f7.png)
 
-![example](https://user-images.githubusercontent.com/2822509/52456988-751a1380-2bbc-11e9-9865-38761b394b8e.png)
 
 ### Usage
 
