@@ -10,7 +10,11 @@ SSM Tree can be installed using [pip](https://pip.pypa.io/en/stable/):
 $ pip install aws-ssm-tree
 ```
 
-## Usage
+## Example
+
+![example](https://user-images.githubusercontent.com/2822509/52456988-751a1380-2bbc-11e9-9865-38761b394b8e.png)
+
+### Usage
 
 ```
 Usage: ssm-tree [OPTIONS]
