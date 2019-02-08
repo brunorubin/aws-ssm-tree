@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="aws-ssm-tree",
-    version="0.0.1",
+    version="0.1.0",
     author="Bruno Rubin",
     author_email="bruno.rubin@gmail.com",
     description="Builds a tree of parameters from AWS System Manager Parameter Store.",
