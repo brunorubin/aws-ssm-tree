@@ -19,7 +19,7 @@ setup(
         "boto3",
         "treelib",
     ],
-    packages=find_packages(exclude=["tests"]),
+    packages=find_packages(exclude=["tests", "img"]),
     entry_points={
         'console_scripts': [
             'ssm-tree = ssm_tree.main:main',
