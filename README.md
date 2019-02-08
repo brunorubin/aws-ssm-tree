@@ -1,11 +1,13 @@
 # SSM Tree
 
+SSM Tree is a tool that provides a tree visualization of the parameters hierarchy from AWS System Manager Parameter Store.
+
 ## Installation
 
 SSM Tree can be installed using [pip](https://pip.pypa.io/en/stable/):
 
 ```bash
-pip install -i https://test.pypi.org/simple/ aws-ssm-tree
+$ pip install aws-ssm-tree
 ```
 
 ## Usage
@@ -23,4 +25,4 @@ Options:
   -r, --recursive  Retrieve all parameters within a hierarchy.
   --version        Show the version and exit.
   --help           Show this message and exit.
-  ```
+```
