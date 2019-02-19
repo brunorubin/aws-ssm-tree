@@ -4,9 +4,11 @@ import click
 
 region_name = None
 path_separator = '/'
+secure_string_identifier = '[*]'
 
 @click.command()
 @click.option("--path", "-p", required=True, help="The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end with the parameter name. Here is an example of a hierarchy: /Servers/Prod")
+@click.option("--show-encrypted", "-s", is_flag=True, help="Shows encrypted parameters with a '*' symbol.")
 @click.option("--no-recursion", is_flag=True, help="Prevents recursion into descending levels.")
 @click.option("--region", help="Specifies which AWS Region to send this request to.")
 @click.version_option(message="aws-ssm-tree - version %(version)s")
@@ -19,11 +21,12 @@ def main(ctx, **kwargs):
     global region_name 
 
     path = kwargs.pop('path')
-    recursive = not kwargs.pop('no_recursion')
+    show_encrypted = kwargs.pop('show_encrypted')
+    recursive =  not kwargs.pop('no_recursion')
     region_name = kwargs.pop('region')
 
     try:
-        build_tree(path, recursive)
+        build_tree(path, recursive, show_encrypted)
     except Exception as e:
         raise click.ClickException("{}".format(e))
     
@@ -56,10 +59,13 @@ def get_tree_from_path(path=None):
             node_list[index-1]['parent'] = node_list[index-2]['node']
     return node_list
 
-def build_tree(path, recursive):
+def build_tree(path, recursive, show_encrypted=False):
     parameters = []
     for parameter in get_parameters(path, recursive):
-        parameters.append(parameter['name'])
+        if show_encrypted and parameter['type'] == 'SecureString':
+            parameters.append(parameter['name'] + " " + secure_string_identifier)
+        else:
+            parameters.append(parameter['name'])
     tree = Tree()
     for item in parameters:
         for node in get_tree_from_path(item):
