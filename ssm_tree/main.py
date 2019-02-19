@@ -2,10 +2,13 @@ from treelib import Tree, Node
 import boto3
 import click
 
+region_name = None
+path_separator = '/'
+
 @click.command()
 @click.option("--path", "-p", required=True, help="The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end with the parameter name. Here is an example of a hierarchy: /Servers/Prod")
+@click.option("--no-recursion", is_flag=True, help="Prevents recursion into descending levels.")
 @click.option("--region", help="Specifies which AWS Region to send this request to.")
-@click.option("--recursive", "-r", is_flag=True, help="Retrieve all parameters within a hierarchy.")
 @click.version_option(message="aws-ssm-tree - version %(version)s")
 @click.pass_context
 def main(ctx, **kwargs):
@@ -13,19 +16,18 @@ def main(ctx, **kwargs):
     SSM Tree is a tool that provides a tree visualization of the
     parameters hierarchy from AWS System Manager Parameter Store.
     """
+    global region_name 
+
     path = kwargs.pop('path')
+    recursive = not kwargs.pop('no_recursion')
     region_name = kwargs.pop('region')
-    recursive = kwargs.pop('recursive')
-    
-    try: 
-        parameters = []
-        for parameter in get_parameters(path, recursive, region_name):
-            parameters.append(parameter['name'])
-        build_tree(parameters)
+
+    try:
+        build_tree(path, recursive)
     except Exception as e:
         raise click.ClickException("{}".format(e))
     
-def get_parameters(path=None, recursive=False, region_name=None):
+def get_parameters(path=None, recursive=True):
     client = boto3.client('ssm', region_name=region_name)
     paginator = client.get_paginator('get_parameters_by_path')
     pages = paginator.paginate(
@@ -36,26 +38,31 @@ def get_parameters(path=None, recursive=False, region_name=None):
     parameters = []
     for page in pages:
         parameters_page = [{"name": entry['Name'],
-                           "value": entry['Value']} for entry in page['Parameters']]
+                           "type": entry['Type'],
+                           "version": entry['Version']} for entry in page['Parameters']]
         parameters.extend(parameters_page)
     return parameters
 
-def get_tree(nodes=None, parent=None, node_list=None):
+def get_tree_from_path(path=None):
+    path = path.split(path_separator)
     node_list = []
-    for index, node in enumerate(nodes):
+    for index, node in enumerate(path):
         if node:
             node_list.append({'node': node})
-    for index, node in enumerate(nodes):
+    for index, node in enumerate(path):
         if index == 1:
             node_list[index-1]['parent'] = None
         else:
             node_list[index-1]['parent'] = node_list[index-2]['node']
     return node_list
 
-def build_tree(path):
+def build_tree(path, recursive):
+    parameters = []
+    for parameter in get_parameters(path, recursive):
+        parameters.append(parameter['name'])
     tree = Tree()
-    for item in path:
-        for node in get_tree(item.split('/')):
+    for item in parameters:
+        for node in get_tree_from_path(item):
             try:
                 tree.create_node(node['node'],node['node'],parent=node['parent'])
             except:
