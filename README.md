@@ -21,13 +21,15 @@ Usage: ssm-tree [OPTIONS]
   hierarchy from AWS System Manager Parameter Store.
 
 Options:
-  -p, --path TEXT  The hierarchy for the parameter. Hierarchies start with a
-                   forward slash (/) and end with the parameter name. Here is
-                   an example of a hierarchy: /Servers/Prod  [required]
-  --region TEXT    Specifies which AWS Region to send the request to.
-  -r, --recursive  Retrieve all parameters within a hierarchy.
-  --version        Show the version and exit.
-  --help           Show this message and exit.
+  -p, --path TEXT       The hierarchy for the parameter. Hierarchies start
+                        with a forward slash (/) and end with the parameter
+                        name. Here is an example of a hierarchy: /Servers/Prod
+                        [required]
+  -s, --show-encrypted  Show encrypted parameters with a '*' symbol.
+  --no-recursion        Prevent recursion into descending levels.
+  --region TEXT         Specify which AWS Region to send this request to.
+  --version             Shows the version and exit.
+  --help                Shows this message and exit.
 ```
 
 ## License

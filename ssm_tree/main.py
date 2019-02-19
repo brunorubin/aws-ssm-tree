@@ -8,9 +8,9 @@ secure_string_identifier = '[*]'
 
 @click.command()
 @click.option("--path", "-p", required=True, help="The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end with the parameter name. Here is an example of a hierarchy: /Servers/Prod")
-@click.option("--show-encrypted", "-s", is_flag=True, help="Shows encrypted parameters with a '*' symbol.")
-@click.option("--no-recursion", is_flag=True, help="Prevents recursion into descending levels.")
-@click.option("--region", help="Specifies which AWS Region to send this request to.")
+@click.option("--show-encrypted", "-s", is_flag=True, help="Show encrypted parameters with a '*' symbol.")
+@click.option("--no-recursion", is_flag=True, help="Prevent recursion into descending levels.")
+@click.option("--region", help="Specify which AWS Region to send this request to.")
 @click.version_option(message="aws-ssm-tree - version %(version)s")
 @click.pass_context
 def main(ctx, **kwargs):
