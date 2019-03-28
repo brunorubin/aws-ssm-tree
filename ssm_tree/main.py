@@ -51,12 +51,13 @@ def get_tree_from_path(path=None):
     node_list = []
     for index, node in enumerate(path):
         if node:
-            node_list.append({'node': node})
+            node_id = "/".join(path[0:index + 1])
+            node_list.append({'node': node, 'id': node_id})
     for index, node in enumerate(path):
         if index == 1:
             node_list[index-1]['parent'] = None
         else:
-            node_list[index-1]['parent'] = node_list[index-2]['node']
+            node_list[index-1]['parent'] = node_list[index-2]['id']
     return node_list
 
 def build_tree(path, recursive, show_encrypted=False):
@@ -70,7 +71,7 @@ def build_tree(path, recursive, show_encrypted=False):
     for item in parameters:
         for node in get_tree_from_path(item):
             try:
-                tree.create_node(node['node'],node['node'],parent=node['parent'])
+                tree.create_node(node['node'],node['id'],parent=node['parent'])
             except:
                 pass
     if not tree:
