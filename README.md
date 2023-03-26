@@ -1,5 +1,4 @@
 # SSM Tree 
-[![Build Status](https://travis-ci.org/brunorubin/aws-ssm-tree.svg?branch=master)](https://travis-ci.org/brunorubin/aws-ssm-tree)
 ![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
 
 SSM Tree is a tool that provides a tree visualization of the parameters hierarchy from AWS System Manager Parameter Store.
