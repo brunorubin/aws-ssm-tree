@@ -77,4 +77,4 @@ def build_tree(path, recursive, show_encrypted=False):
     if not tree:
         print("Nothing to show.")
     else:
-        return tree.show()
+        print(tree.show(stdout=False))
